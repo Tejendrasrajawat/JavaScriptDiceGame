@@ -9,14 +9,14 @@ function speak(message) {
   // Select a female voice in the desired language
   var voices = window.speechSynthesis.getVoices();
   var selectedVoice = voices.find(function (voice) {
-    return voice.lang === "en-US" && voice.gender === "female";
+    return voice.lang === "en-GB" && voice.gender === "female";
   });
 
   // If no suitable voice is found, use the default voice
-  speech.voice = selectedVoice || voices[0];
+  speech.voice = selectedVoice;
 
   speech.rate = 1.0;
-  speech.pitch = 1.5;
+  speech.pitch = 1.0;
   window.speechSynthesis.speak(speech);
 }
 
@@ -63,8 +63,10 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       scores[activePlayer];
 
     // Check if player won the game
-    if (scores[activePlayer] >= 100) {
-      speak("Winner");
+    if (scores[activePlayer] >= 60) {
+      speak(
+        "Winner is" + document.querySelector("#name-" + activePlayer).innerHTML
+      );
       const loserPlayer = activePlayer == 0 ? 1 : 0;
       document.querySelector("#name-" + activePlayer).textContent = "Winner!";
       document.querySelector(`#name-${loserPlayer}`).textContent = "Loser!";

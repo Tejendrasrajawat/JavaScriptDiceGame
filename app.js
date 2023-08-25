@@ -2,6 +2,24 @@ var scores, roundScore, activePlayer, gamePlaying;
 
 init();
 
+// Function to speak a message using the Web Speech API
+function speak(message) {
+  var speech = new SpeechSynthesisUtterance(message);
+
+  // Select a female voice in the desired language
+  var voices = window.speechSynthesis.getVoices();
+  var selectedVoice = voices.find(function (voice) {
+    return voice.lang === "en-US" && voice.gender === "female";
+  });
+
+  // If no suitable voice is found, use the default voice
+  speech.voice = selectedVoice || voices[0];
+
+  speech.rate = 1.0;
+  speech.pitch = 1.5;
+  window.speechSynthesis.speak(speech);
+}
+
 document.querySelector(".btn-roll").addEventListener("click", function () {
   if (gamePlaying) {
     // Disable the button to prevent multiple clicks during the delay
@@ -23,7 +41,7 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
         roundScore;
     } else {
       // Next player
-      alert("oops, you got 1");
+      speak("Oops, you got 1");
       nextPlayer();
     }
 
@@ -45,6 +63,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
 
     // Check if player won the game
     if (scores[activePlayer] >= 100) {
+      speak("Winner");
       document.querySelector("#name-" + activePlayer).textContent = "Winner!";
       document.querySelector(".dice").style.display = "none";
       document
@@ -71,8 +90,6 @@ function nextPlayer() {
 
   document.querySelector(".player-0-panel").classList.toggle("active");
   document.querySelector(".player-1-panel").classList.toggle("active");
-
-  document.querySelector(".dice").style.display = "none";
 }
 
 document.querySelector(".btn-new").addEventListener("click", init);

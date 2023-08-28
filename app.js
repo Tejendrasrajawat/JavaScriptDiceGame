@@ -67,6 +67,8 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       speak(
         "Winner is" + document.querySelector("#name-" + activePlayer).innerHTML
       );
+      var audioElement = new Audio("firework.mp3"); // Replace with your audio file path
+      audioElement.play();
       const loserPlayer = activePlayer == 0 ? 1 : 0;
       document.querySelector("#name-" + activePlayer).textContent = "Winner!";
       document.querySelector(`#name-${loserPlayer}`).textContent = "Loser!";
